@@ -13,6 +13,7 @@ public abstract class AbstractEntity {
     @Id
     @GeneratedValue
     private int id;
+    private static int nextId = 1;
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
