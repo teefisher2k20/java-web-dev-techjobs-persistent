@@ -31,9 +31,10 @@ public class EmployerController {
                                          Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("employer", newEmployer.getId());
             return "add";
         } else {
+            model.addAttribute("employer", this.employerRepository.findAll());
+
             return "redirect:";
         }
     }
@@ -45,7 +46,7 @@ public class EmployerController {
         Optional optEmployer = null;
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
-            model.addAttribute("employer", employer);
+            model.addAttribute("employer", this.employerRepository.findAll());
             return "employers/view";
         } else {
             return "redirect:../";
