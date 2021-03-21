@@ -3,7 +3,7 @@ package org.launchcode.javawebdevtechjobspersistent.models;
 import javax.persistence.*;
 
 @Entity
-public class Job{
+public class Job {
 
     @Id
     @GeneratedValue
@@ -15,6 +15,7 @@ public class Job{
     private String employer;
     private String skills;
 
+    //One to many?
     public Job() {
     }
 
