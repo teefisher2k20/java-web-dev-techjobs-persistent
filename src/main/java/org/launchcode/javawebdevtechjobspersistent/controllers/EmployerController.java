@@ -1,6 +1,7 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
 import org.launchcode.javawebdevtechjobspersistent.models.Employer;
+import org.launchcode.javawebdevtechjobspersistent.models.Job;
 import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,17 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
+    @GetMapping("allEmployers")
+    public String displayAllEmployers(Model model) {
+        model.addAttribute("title", "All Employer");
+        model.addAttribute("employers", employerRepository.findAll());
+        return "employers/allEmployers";
+    }
+
+
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
-        model.addAttribute("employer", "Employer");
         model.addAttribute(new Employer());
-        model.addAttribute("employer", employerRepository.findAll());
         return "employers/add";
     }
 
@@ -31,31 +38,25 @@ public class EmployerController {
                                          Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("employer", newEmployer.getId());
+            return "employers/add";
         }
-
-        return "redirect:";
+        employerRepository.save(newEmployer);
+        return "employers/view";
     }
 
 
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
-        Optional optEmployer = null;
+        Optional optEmployer = employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
             model.addAttribute("employer", employer);
             return "employers/view";
         } else {
-            return "redirect:../";
+            return "redirect:../employers/allEmployers";
         }
     }
 
-    @GetMapping
-    public String displayAllEmployers(Model model) {
-        model.addAttribute("title", "All Employers");
-        model.addAttribute("employers", employerRepository.findAll());
-        return "employers";
-    }
 
 }
