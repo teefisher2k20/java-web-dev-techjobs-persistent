@@ -13,5 +13,8 @@ SELECT name
 FROM employer
 WHERE location = ("St. Louis City");
 ## Part 3: Test it with SQL
-
+DROP TABLE job;
 ## Part 4: Test it with SQL
+SELECT name,description FROM skill
+WHERE skill.id In (SELECT skills_id FROM job_skills
+WHERE jobs_id In (SELECT id FROM job));
